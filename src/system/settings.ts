@@ -4,7 +4,7 @@ import i18next from "i18next";
 import BattleScene from "../battle-scene";
 import { hasTouchscreen } from "../touch-controls";
 import { updateWindowType } from "../ui/ui-theme";
-import { PlayerGender } from "./game-data";
+import { PlayerGender, RivalType } from "./game-data";
 import { CandyUpgradeNotificationChangedEvent } from "#app/battle-scene-events.js";
 import { MoneyFormat } from "../enums/money-format";
 
@@ -30,6 +30,7 @@ export enum Setting {
   HP_Bar_Speed = "HP_BAR_SPEED",
   Fusion_Palette_Swaps = "FUSION_PALETTE_SWAPS",
   Player_Gender = "PLAYER_GENDER",
+  Rival_Type = "RIVAL_TYPE",
   Gamepad_Support = "GAMEPAD_SUPPORT",
   Swap_A_and_B = "SWAP_A_B", // Swaps which gamepad button handles ACTION and CANCEL
   Touch_Controls = "TOUCH_CONTROLS",
@@ -66,6 +67,7 @@ export const settingOptions: SettingOptions = {
   [Setting.HP_Bar_Speed]: ["Normal", "Fast", "Faster", "Instant"],
   [Setting.Fusion_Palette_Swaps]: ["Off", "On"],
   [Setting.Player_Gender]: ["Boy", "Girl"],
+  [Setting.Rival_Type]: ["Finn", "Ivy" ],
   [Setting.Gamepad_Support]: ["Auto", "Disabled"],
   [Setting.Swap_A_and_B]: ["Enabled", "Disabled"],
   [Setting.Touch_Controls]: ["Auto", "Disabled"],
@@ -94,6 +96,7 @@ export const settingDefaults: SettingDefaults = {
   [Setting.HP_Bar_Speed]: 0,
   [Setting.Fusion_Palette_Swaps]: 1,
   [Setting.Player_Gender]: 0,
+  [Setting.Rival_Type]: 1,
   [Setting.Gamepad_Support]: 0,
   [Setting.Swap_A_and_B]: 1, // Set to 'Disabled' by default
   [Setting.Touch_Controls]: 0,
@@ -184,6 +187,15 @@ export function setSetting(scene: BattleScene, setting: Setting, value: integer)
       const female = settingOptions[setting][value] === "Girl";
       scene.gameData.gender = female ? PlayerGender.FEMALE : PlayerGender.MALE;
       scene.trainer.setTexture(scene.trainer.texture.key.replace(female ? "m" : "f", female ? "f" : "m"));
+    } else {
+      return false;
+    }
+    break;
+  case Setting.Rival_Type:
+    if (scene.gameData) {
+      console.log(settingOptions[setting][value]);
+      const female = settingOptions[setting][value] === "Girl";
+      scene.gameData.rivalType = female ? RivalType.FEMALE : RivalType.MALE;
     } else {
       return false;
     }
