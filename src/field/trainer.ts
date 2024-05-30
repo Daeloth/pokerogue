@@ -20,6 +20,7 @@ import {trainerNamePools} from "../data/trainer-names";
 import {ArenaTagSide, ArenaTrapTag} from "#app/data/arena-tag";
 import {getIsInitialized, initI18n} from "#app/plugins/i18n";
 import i18next from "i18next";
+import { RivalType } from "#app/system/game-data.js";
 
 export enum TrainerVariant {
     DEFAULT,
@@ -74,7 +75,9 @@ export default class Trainer extends Phaser.GameObjects.Container {
     console.log(Object.keys(trainerPartyTemplates)[Object.values(trainerPartyTemplates).indexOf(this.getPartyTemplate())]);
 
     const getSprite = (hasShadow?: boolean, forceFemale?: boolean) => {
-      const ret = this.scene.addFieldSprite(0, 0, this.config.getSpriteKey(variant === TrainerVariant.FEMALE || forceFemale,this.isDouble()));
+      console.log(this.scene.gameData.rivalType.toString());
+      const ret = this.scene.addFieldSprite(0, 0, this.config.getSpriteKey(variant === TrainerVariant.FEMALE || forceFemale,this.isDouble(),
+        (this.scene.gameData.rivalType === RivalType.FINN || this.scene.gameData.rivalType === RivalType.IVY )? "" : "custom_"+this.scene.gameData.rivalType.toString() ));
       ret.setOrigin(0.5, 1);
       ret.setPipeline(this.scene.spritePipeline, {tone: [0.0, 0.0, 0.0, 0.0], hasShadow: !!hasShadow});
       return ret;

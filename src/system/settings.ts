@@ -67,7 +67,7 @@ export const settingOptions: SettingOptions = {
   [Setting.HP_Bar_Speed]: ["Normal", "Fast", "Faster", "Instant"],
   [Setting.Fusion_Palette_Swaps]: ["Off", "On"],
   [Setting.Player_Gender]: ["Boy", "Girl"],
-  [Setting.Rival_Type]: ["Finn", "Ivy" ],
+  [Setting.Rival_Type]: ["Finn", "Ivy", "Millie", "Jueri", "Bari" ],
   [Setting.Gamepad_Support]: ["Auto", "Disabled"],
   [Setting.Swap_A_and_B]: ["Enabled", "Disabled"],
   [Setting.Touch_Controls]: ["Auto", "Disabled"],
@@ -193,9 +193,11 @@ export function setSetting(scene: BattleScene, setting: Setting, value: integer)
     break;
   case Setting.Rival_Type:
     if (scene.gameData) {
-      console.log(settingOptions[setting][value]);
-      const female = settingOptions[setting][value] === "Girl";
-      scene.gameData.rivalType = female ? RivalType.FEMALE : RivalType.MALE;
+      scene.gameData.rivalType = settingOptions[setting].indexOf(settingOptions[setting][value])+1;
+      console.log(scene.gameData.rivalType);
+      return true;
+      const female = settingOptions[setting][value] === "Ivy";
+      scene.gameData.rivalType = female ? RivalType.IVY : RivalType.FINN;
     } else {
       return false;
     }

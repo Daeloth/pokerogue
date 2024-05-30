@@ -48,8 +48,8 @@ export enum PlayerGender {
 
 export enum RivalType {
   UNSET,
-  MALE,
-  FEMALE
+  FINN,
+  IVY
 }
 
 export enum Passive {

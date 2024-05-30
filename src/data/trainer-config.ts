@@ -226,8 +226,12 @@ export class TrainerConfig {
     return TrainerType[this.getDerivedType()].toString().toLowerCase();
   }
 
-  getSpriteKey(female?: boolean,isDouble: boolean = false): string {
+  getSpriteKey(female?: boolean,isDouble: boolean = false, custom: string = ""): string {
     let ret = this.getKey();
+    if (custom !== "") {
+      return custom;
+    }
+
     if (this.hasGenders) {
       ret += `_${female ? "f" : "m"}`;
     }
